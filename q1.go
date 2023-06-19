@@ -2,53 +2,25 @@ package main
 
 import (
 	"fmt"
+	"math"
 )
 
-func canBuyEnoughFood(dogs int, cats int, stock map[string]int) bool {
-	dogFood := stock["Ração para cachorro"]
-	catFood := stock["Ração para gato"]
-	universalFood := stock["Ração universal"]
+//Crie uma struct chamada Circulo com o campo "raio".
+//Escreva uma função que receba um Circulo como parâmetro e
+//calcule a área do círculo (área = pi * raio * raio).
+//Dica: use a constante math.Pi para representar o número pi.
 
-	if dogs < 0 || cats < 0 {
-		return false
-	}
-
-	totalDogFood := dogs
-	totalCatFood := cats
-
-	if dogFood < totalDogFood {
-		return false
-	}
-
-	if catFood < totalCatFood {
-		return false
-	}
-
-	totalFood := totalDogFood + totalCatFood
-
-	if universalFood < totalFood-dogFood-catFood {
-		return false
-	}
-
-	return true
+type Circulo struct {
+	raio float64
+	area float64
 }
 
 func main() {
-	dogs := 2
-	cats := 3
+	p := Circulo{raio: 10}
+	fmt.Println(areaCirculo(p))
+}
 
-	stock := map[string]int{
-		"Ração para cachorro": 2,
-		"Ração para gato":     2,
-		"Ração universal":     2,
-	}
-
-	if dogs < 0 || cats < 0 {
-		fmt.Println("Números negativos não são permitidos.")
-		return
-	}
-
-	result := canBuyEnoughFood(dogs, cats, stock)
-
-	fmt.Println("É possível:", result)
+func areaCirculo(p Circulo) (area float64) {
+	area = math.Pi * p.raio * p.raio
+	return area
 }
