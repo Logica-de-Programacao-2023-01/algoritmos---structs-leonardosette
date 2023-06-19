@@ -1,94 +1,49 @@
 package main
 
-import (
-	"fmt"
-	"math"
-)
+import "fmt"
 
-type Shirt struct {
-	Size  string
-	Price int
+//Usando as mesmas structs do exercício anterior, escreva uma função
+//que receba um título de música como parâmetro e retorne uma lista
+//das Playlists que possuem esse título.
+
+type Musica struct {
+	titulo  string
+	artista string
+	duracao int
 }
 
-func calculatePriceAverage(shirts []Shirt) (float64, error) {
-	minPrice := math.MaxInt64
-	maxPrice := math.MinInt64
-
-	for _, shirt := range shirts {
-		if shirt.Price < minPrice {
-			minPrice = shirt.Price
-		}
-		if shirt.Price > maxPrice {
-			maxPrice = shirt.Price
+func encontrarMusicas(playlist []Playlist, nomeMusica string) []Playlist {
+	var resultado []Playlist
+	for _, playlist := range playlist {
+		for _, musica := range playlist.musicas {
+			if musica.titulo == nomeMusica {
+				resultado = append(resultado, playlist)
+			}
 		}
 	}
+	return resultado
+}
 
-	if minPrice == math.MaxInt64 || maxPrice == math.MinInt64 {
-		return 0, fmt.Errorf("Não foi possível calcular a média")
-	}
-
-	average := float64(maxPrice+minPrice) / 2
-	return average, nil
+type Playlist struct {
+	nome    string
+	musicas []Musica
 }
 
 func main() {
-	shirts := []Shirt{
-		{
-			Size:  "M",
-			Price: 10,
-		},
-		{
-			Size:  "XXL",
-			Price: 20,
-		},
-		{
-			Size:  "S",
-			Price: 7,
-		},
-		{
-			Size:  "XXXXXXXS",
-			Price: 5,
+	p := Playlist{
+		nome: "giovana",
+		musicas: []Musica{
+			{
+				titulo:  "Run",
+				artista: "OneRepublic",
+				duracao: 3,
+			},
+			{
+				titulo:  "Pumped Up Kicks",
+				artista: "Madism, MKJ, Felix Samuel",
+				duracao: 3,
+			},
 		},
 	}
-
-	average, err := calculatePriceAverage(shirts)
-	if err != nil {
-		fmt.Println("Erro:", err)
-	} else {
-		fmt.Println("Maior:", maxPrice)
-		fmt.Println("Menor:", minPrice)
-		fmt.Println("Média:", average)
-	}
-
-	shirts = []Shirt{
-		{
-			Size:  "S",
-			Price: 10,
-		},
-		{
-			Size:  "XXL",
-			Price: 20,
-		},
-		{
-			Size:  "S",
-			Price: 4,
-		},
-		{
-			Size:  "XXXXXXXL",
-			Price: 5,
-		},
-		{
-			Size:  "XXXXXXXL",
-			Price: 25,
-		},
-	}
-
-	average, err = calculatePriceAverage(shirts)
-	if err != nil {
-		fmt.Println("Erro:", err)
-	} else {
-		fmt.Println("Maior:", maxPrice)
-		fmt.Println("Menor:", minPrice)
-		fmt.Println("Média:", average)
-	}
+	fmt.Println(p)
 }
