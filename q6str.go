@@ -1,45 +1,39 @@
 package main
 
-import (
-	"fmt"
-)
+import "fmt"
 
-func registerUser(names []string) []string {
-	database := make(map[string]bool)
-	responses := make([]string, len(names))
+//Crie uma struct chamada Funcionário com os campos "nome", "salário" e
+//"idade". Escreva funções que permitam aumentar ou diminuir o salário
+//do funcionário em uma determinada porcentagem e uma função que
+//calcule o tempo de serviço do funcionário (considerando que ele
+//começou a trabalhar aos 18 anos).
 
-	for i, name := range names {
-		if !database[name] {
-			database[name] = true
-			responses[i] = "OK"
-		} else {
-			newName := generateNewName(name, database)
-			database[newName] = true
-			responses[i] = newName
-		}
-	}
-
-	return responses
+type Funcionario struct {
+	nome    string
+	salario float64
+	idade   int
 }
 
-func generateNewName(name string, database map[string]bool) string {
-	i := 1
-	newName := fmt.Sprintf("%s%d", name, i)
+func incremento(f Funcionario, percentual float64) Funcionario {
+	f.salario = f.salario + (f.salario * percentual)
+	return f
+}
 
-	for database[newName] {
-		i++
-		newName = fmt.Sprintf("%s%d", name, i)
-	}
+func decremento(f Funcionario, percentual float64) Funcionario {
+	f.salario = f.salario - (f.salario * percentual)
+	return f
+}
 
-	return newName
+func calcularTempoServico(f Funcionario) int {
+	return f.idade - 18
 }
 
 func main() {
-	names := []string{"alex", "steven", "alex", "steven", "alex", "steven", "alex", "steven", "alex", "steven"}
-
-	responses := registerUser(names)
-
-	for _, response := range responses {
-		fmt.Println(response)
+	p := Funcionario{
+		nome:    "Giovana",
+		salario: 1000,
+		idade:   30,
 	}
+	fmt.Println(p)
+
 }
