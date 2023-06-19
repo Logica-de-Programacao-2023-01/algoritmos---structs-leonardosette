@@ -1,90 +1,55 @@
 package main
 
-import (
-	"fmt"
-)
+import "fmt"
 
-type Video struct {
-	ID            int
-	Duration      int
-	Entertainment int
+//Crie uma struct chamada Playlist com os campos "nome" e "músicas".
+//O campo "músicas" deve ser um slice de structs, cada uma
+//representando uma música com os campos "título", "artista"
+//e "duração". Escreva uma função que receba uma Playlist como
+//parâmetro e imprima o nome da playlist, o tempo total da
+//playlist e as informações de cada música.
+
+type musicas struct {
+	titulo  string
+	artista string
+	duracao float64
 }
 
-func chooseVideo(t int, videos []Video) (Video, error) {
-	var chosenVideo Video
-	maxEntertainment := 0
-
-	for _, video := range videos {
-		if video.Duration <= t {
-			if video.Entertainment > maxEntertainment {
-				maxEntertainment = video.Entertainment
-				chosenVideo = video
-			}
-		}
-	}
-
-	if maxEntertainment == 0 {
-		return Video{}, fmt.Errorf("Não há vídeos adequados dentro do tempo disponível")
-	}
-
-	return chosenVideo, nil
+type Playlists struct {
+	nome   string
+	musica []musicas
 }
 
 func main() {
-	t := 5
-	videos := []Video{
-		{
-			ID:            1,
-			Duration:      2,
-			Entertainment: 3,
+	p := Playlists{
+		nome: "pop",
+		musica: []musicas{
+			{
+				titulo:  "Run",
+				artista: "OneRepublic",
+				duracao: 2.48,
+			},
+			{
+				titulo:  "Pumped Up Kicks",
+				artista: "Madism, MKJ, Felix Samuel",
+				duracao: 2.25,
+			},
 		},
-		{
-			ID:            2,
-			Duration:      3,
-			Entertainment: 4,
-		},
-		{
-			ID:            3,
-			Duration:      1,
-			Entertainment: 2,
-		},
+	}
+	imprimaPlaylist(p)
+
+}
+
+func imprimaPlaylist(p Playlists) {
+	fmt.Println("Nome da Playlist:", p.nome)
+	var soma float64 = 0
+	for _, a := range p.musica {
+		soma += a.duracao
+		fmt.Println("Duracao total:", soma)
+		fmt.Println("Titulo:", a.titulo)
+		fmt.Println("Artista:", a.artista)
+		fmt.Println("Duracao:", a.duracao)
+		fmt.Println("")
 	}
 
-	chosenVideo, err := chooseVideo(t, videos)
-	if err != nil {
-		fmt.Println("Erro:", err)
-	} else {
-		fmt.Printf("Vídeo escolhido: %+v\n", chosenVideo)
-	}
-
-	t = 10
-	videos = []Video{
-		{
-			ID:            1,
-			Duration:      6,
-			Entertainment: 8,
-		},
-		{
-			ID:            2,
-			Duration:      7,
-			Entertainment: 5,
-		},
-		{
-			ID:            3,
-			Duration:      9,
-			Entertainment: 9,
-		},
-		{
-			ID:            4,
-			Duration:      4,
-			Entertainment: 6,
-		},
-	}
-
-	chosenVideo, err = chooseVideo(t, videos)
-	if err != nil {
-		fmt.Println("Erro:", err)
-	} else {
-		fmt.Printf("Vídeo escolhido: %+v\n", chosenVideo)
-	}
 }
