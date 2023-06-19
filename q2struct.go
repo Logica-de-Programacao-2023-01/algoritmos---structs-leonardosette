@@ -2,60 +2,42 @@ package main
 
 import "fmt"
 
-type Participant struct {
-	Name string
-	Role string
+// Crie uma struct chamada Pessoa com os campos "nome", "idade" e
+// "endereço". O campo "endereço" deve ser uma outra struct com
+//os campos "rua", "número", "cidade" e "estado". Escreva uma
+//função que receba uma Pessoa como parâmetro e imprima seu
+//endereço completo.
+
+type Endereco struct {
+	rua    string
+	numero int
+	cidade string
+	estado string
 }
 
-func calculateMaxTeams(participants []Participant) int {
-	programmers := 0
-	mathematicians := 0
-
-	for _, participant := range participants {
-		if participant.Role == "Programmer" {
-			programmers++
-		} else if participant.Role == "Mathematician" {
-			mathematicians++
-		}
-	}
-	
-	maxTeams := 0
-	if programmers >= 1 && mathematicians >= 1 {
-		minTeamMembers := min(programmers/4, mathematicians/4)
-		maxTeams = minTeamMembers
-	}
-
-	return maxTeams
-}
-
-func min(a, b int) int {
-	if a < b {
-		return a
-	}
-	return b
+type Pessoa struct {
+	nome     string
+	idade    int
+	endereco Endereco
 }
 
 func main() {
-	participants := []Participant{
-		{
-			Name: "Pedro",
-			Role: "Programmer",
-		},
-		{
-			Name: "Vanessa",
-			Role: "Programmer",
-		},
-		{
-			Name: "Tônia",
-			Role: "Mathematician",
-		},
-		{
-			Name: "João",
-			Role: "Mathematician",
-		},
+	p := Pessoa{nome: "giovana",
+		idade: 18,
+		endereco: Endereco{
+			rua:    "Alvorada",
+			numero: 106,
+			cidade: "Brasilia",
+			estado: "DF"},
 	}
+	imprimaPessoa(p)
+}
 
-	maxTeams := calculateMaxTeams(participants)
-
-	fmt.Println("Número máximo de equipes:", maxTeams)
+func imprimaPessoa(p Pessoa) {
+	fmt.Println("Nome:", p.nome)
+	fmt.Println("Idade:", p.idade)
+	fmt.Println("Rua:", p.endereco.rua)
+	fmt.Println("Numero:", p.endereco.numero)
+	fmt.Println("Cidade:", p.endereco.cidade)
+	fmt.Println("Estado:", p.endereco.estado)
 }
